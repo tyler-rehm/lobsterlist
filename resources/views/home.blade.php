@@ -11,12 +11,6 @@
 
                     <div class="panel-body">
                         <contact_modal></contact_modal>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">Import</div>
-
-                    <div class="panel-body">
                         <import></import>
                     </div>
                 </div>

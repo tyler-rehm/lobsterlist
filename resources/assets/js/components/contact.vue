@@ -73,6 +73,7 @@
                 Spark.post('/api/contact/add', this.form)
                         .then(response => {
                             console.log(response);
+                            window.location.href = '/contact';
                         });
             }
         },

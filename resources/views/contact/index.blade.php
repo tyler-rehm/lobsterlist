@@ -44,6 +44,7 @@
                             <div>
                                 <contact_modal></contact_modal>
                                 <export></export>
+                                <import></import>
                             </div>
                         </div>
                     </div>

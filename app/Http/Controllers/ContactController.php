@@ -14,6 +14,22 @@ class ContactController extends Controller
 {
     public function add(Request $request)
     {
+        if(!empty($request->phone)){
+            $request->phone = (int)preg_replace("/[^0-9]/", "", $request->phone);
+        }
+
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'email' => 'required|email',
+            'phone' => 'required|min:10',
+            'company' => 'min:5|regex:/^[a-z0-9 .\-]+$/i',
+            'address1' => 'min:5|regex:/^[a-z0-9 .\-]+$/i',
+            'address2' => 'min:5|regex:/^[a-z0-9 .\-]+$/i',
+            'city' => 'min:3|alpha_num',
+            'state' => 'min:2|alpha',
+            'zip' => 'min:5|numeric'
+        ]);
+
         if(!empty($request->get('id'))){
             $contact = Contact::find($request->get('id'));
         } else {

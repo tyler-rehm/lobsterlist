@@ -17,5 +17,5 @@ class Contact extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
-    protected $fillable = ['name','email','phone', 'company', 'address1', 'address2', 'city', 'state', 'zip', 'public'];
+    protected $fillable = ['name','email','phone', 'company', 'address1', 'address2', 'city', 'state', 'zip', 'public', 'notes', 'title'];
 }

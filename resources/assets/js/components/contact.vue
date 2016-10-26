@@ -195,10 +195,14 @@
         },
         computed: {
             isReadOnly: function () {
-                var current_user = this.spark.state.user.id;
-                var contact_owner = this.spark.contact.user_id;
-                if(current_user != contact_owner){
-                    return true;
+                if(this.spark.state.user.id.lenght && this.spark.contact.user_id){
+                    var current_user = this.spark.state.user.id;
+                    var contact_owner = this.spark.contact.user_id;
+                    if(current_user != contact_owner){
+                        return true;
+                    } else {
+                        return false;
+                    }
                 } else {
                     return false;
                 }

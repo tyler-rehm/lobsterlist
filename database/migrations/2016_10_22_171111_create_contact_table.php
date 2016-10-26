@@ -20,7 +20,7 @@ class CreateContactTable extends Migration
             $table->string('email');
             $table->string('phone');
             $table->string('name');
-            $table->boolean('public')->default(true);
+            $table->boolean('public')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

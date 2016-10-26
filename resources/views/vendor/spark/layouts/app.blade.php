@@ -15,6 +15,8 @@
     <!-- CSS -->
     <link href="/css/sweetalert.css" rel="stylesheet">
     <link href="/css/app.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
+    @yield('css')
 
     <!-- Scripts -->
     @yield('scripts', '')

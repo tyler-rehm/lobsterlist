@@ -10,8 +10,13 @@
                     <div class="panel-heading">Dashboard</div>
 
                     <div class="panel-body">
-                        <contact_modal></contact_modal>
-                        <import></import>
+                        <div class="col-md-9">
+                            <h3>Welcome to Lobster List!</h3>
+                            <p>We hope you enjoy using our contact management solution.</p>
+                            <br/><hr/><br/>
+                            <contact_modal></contact_modal>
+                            <import></import>
+                        </div>
                     </div>
                 </div>
             </div>

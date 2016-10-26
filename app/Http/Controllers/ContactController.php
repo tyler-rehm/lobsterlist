@@ -14,15 +14,39 @@ class ContactController extends Controller
 {
     public function add(Request $request)
     {
-        $contact = new Contact;
-        $contact->name = $request->get('name');
-        $contact->phone = $request->get('phone');
-        $contact->email = $request->get('email');
+        if(!empty($request->get('id'))){
+            $contact = Contact::find($request->get('id'));
+        } else {
+            $contact = new Contact;
+        }
+
+        foreach($contact->getFillable() as $field){
+            if(!empty($request->get($field))){
+                $contact->{$field} = $request->get($field);
+            }
+        }
         $contact->user_id = $request->user()->id;
         $contact->team_id = $request->user()->current_team_id;
         $contact->save();
 
         return json_encode(array('success' => true));
+    }
+
+    public function search($term, Request $request)
+    {
+        $user_id = $request->user()->id;
+        $team_id = $request->user()->current_team_id;
+        $user_results = Contact::search($term)->where('user_id', $user_id)->get();
+        $team_results = Contact::search($term)->where('public', 1)->where('team_id', $team_id)->get();
+
+        $results = $user_results;
+        foreach($team_results as $result){
+            if($result->user_id != $user_id){
+                $results[] = $result;
+            }
+        }
+
+        return view('contact.index')->with('contacts', $results);
     }
 
     public function import(Request $request)
@@ -35,14 +59,16 @@ class ContactController extends Controller
 
     private function _parser($file, Request $request)
     {
-        $contents = Excel::load('storage/app/' . $file, function($reader) {
-
-        })->get();
+        $contents = Excel::load('storage/app/' . $file, function($reader) {})->get();
         foreach($contents as $content){
             $contact = new Contact;
-            $contact->name = $content->get('name');
-            $contact->phone = $content->get('phone');
-            $contact->email = $content->get('email');
+
+            foreach($contact->getFillable() as $field){
+                if($content->get($field) !== null){
+                    $contact->{$field} = $content->get($field);
+                }
+            }
+
             $contact->user_id = $request->user()->id;
             $contact->team_id = $request->user()->current_team_id;
             $contact->save();
@@ -51,8 +77,9 @@ class ContactController extends Controller
 
     public function index(Request $request)
     {
-        $contacts = Contact::where('user_id', $request->user()->id)
-            ->where('team_id', $request->user()->current_team_id)
+        $contacts = Contact::where('team_id', $request->user()->current_team_id)
+            ->where('public', 1)
+            ->orWhere('user_id',$request->user()->id)
             ->orderBy('name', 'desc')
             ->get();
 
@@ -83,7 +110,7 @@ class ContactController extends Controller
     public function export(Request $request)
     {
         $type = $request->get('type');
-        $contacts = Contact::where('user_id', $request->user()->id)
+        $contacts = Contact::where('public', 1)
             ->where('team_id', $request->user()->current_team_id)
             ->orderBy('name', 'desc')
             ->get();

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Contact;
+use App\Reminder;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -97,15 +98,17 @@ class ContactController extends Controller
             ->where('public', 1)
             ->orWhere('user_id',$request->user()->id)
             ->orderBy('name', 'desc')
+            ->with('reminders')
             ->get();
-
         return view('contact.index')->with('contacts', $contacts);
     }
 
     public function view($id)
     {
         $contact = Contact::where('id', $id)->first();
-        return view('contact.view')->with('contact',$contact);
+        $reminders = Reminder::with('status')->where('contact_id', $id)->get();
+
+        return view('contact.view')->with('contact',$contact)->with('reminders', $reminders);
     }
 
     public function privacy_toggle($id)

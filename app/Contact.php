@@ -18,4 +18,9 @@ class Contact extends Model
      */
     protected $dates = ['deleted_at'];
     protected $fillable = ['name','email','phone', 'company', 'address1', 'address2', 'city', 'state', 'zip', 'public', 'notes', 'title'];
+
+    public function reminders()
+    {
+        return $this->hasMany('App\Reminder');
+    }
 }

@@ -17,4 +17,5 @@ Route::group([
     Route::post('/contact/add', 'ContactController@add');
     Route::post('/contact/import', 'ContactController@import');
     Route::post('/contact/export', 'ContactController@export');
+    Route::post('/reminder/add', 'ReminderController@add');
 });

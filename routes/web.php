@@ -21,3 +21,4 @@ Route::get('/contact/delete/{id}', 'ContactController@delete');
 Route::post('/contact/import', 'ContactController@import');
 Route::get('/export/{file_name}', 'ContactController@export');
 Route::get('/contact/search/{term}', 'ContactController@search');
+Route::get('/reminders', 'ReminderController@index');
